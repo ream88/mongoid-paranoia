@@ -1,3 +1,6 @@
+# Upcoming
+* Fixes paths for Travis.
+
 # 0.2.0 (May 11, 2013)
 * Added info.
 
