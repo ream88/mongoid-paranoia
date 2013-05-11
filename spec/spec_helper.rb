@@ -7,6 +7,8 @@ $LOAD_PATH.unshift(MODELS)
 require "mongoid"
 require "rspec"
 
+require "mongoid/paranoia"
+
 # These environment variables can be set if wanting to test against a database
 # that is not on the local machine.
 ENV["MONGOID_SPEC_HOST"] ||= "localhost"
