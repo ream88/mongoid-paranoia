@@ -1,5 +1,11 @@
 # mongoid-paranoia
 
+<span style="color: red">Important:</span> This gem is an extraction of [Mongoid::Paranoia](http://mongoid.org/en/mongoid/docs/extras.html#paranoia) from the official [mongoid](http://mongoid.org) gem. Since Mongoid::Paranoia will be removed in the upcoming `4.0.0` release of mongoid, this gem re-enables the functionality of paranoid documents.
+
+Please sumbit **only bug and security fixes**. Neighter I will accept new features nor changes to exiting APIs. Please consider forking the project if you want new features to appear! :)
+
+---
+
 There may be times when you don't want documents to actually get deleted from the database, but "flagged" as deleted. Mongoid provides a Paranoia module to give you just that.
 
 ## Installation
