@@ -1,4 +1,4 @@
-# mongoid-paranoia
+# mongoid-paranoia [![Build Status](https://travis-ci.org/haihappen/mongoid-paranoia.png)](https://travis-ci.org/haihappen/mongoid-paranoia)
 
 **Important:** This gem is an extraction of [Mongoid::Paranoia](http://mongoid.org/en/mongoid/docs/extras.html#paranoia) from the official [mongoid](http://mongoid.org) gem. Since Mongoid::Paranoia will be removed in the upcoming `4.0.0` release of mongoid, this gem re-enables the functionality of paranoid documents.
 

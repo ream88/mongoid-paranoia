@@ -1,0 +1,20 @@
+language: ruby
+
+rvm:
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - ruby-head
+
+gemfile:
+  - Gemfile
+  - gemfiles/mongoid_master.gemfile
+
+branches:
+  only:
+    - master
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - gemfile: gemfiles/mongoid_master.gemfile
