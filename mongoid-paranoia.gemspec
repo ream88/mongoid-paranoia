@@ -14,5 +14,5 @@ Gem::Specification.new do |gem|
   gem.require_path  = 'lib'
 
   gem.add_dependency 'activesupport', '>= 3.0'
-  gem.add_dependency 'mongoid', '>= 3.0', '< 3.1.4'
+  gem.add_dependency 'mongoid', '>= 3.1.4'
 end
