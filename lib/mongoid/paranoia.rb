@@ -17,8 +17,8 @@ module Mongoid
       field :deleted_at, type: Time
       self.paranoid = true
 
-      default_scope where(deleted_at: nil)
-      scope :deleted, ne(deleted_at: nil)
+      default_scope ->{ where(deleted_at: nil) }
+      scope :deleted, ->{ ne(deleted_at: nil) }
     end
 
     # Delete the paranoid +Document+ from the database completely. This will
