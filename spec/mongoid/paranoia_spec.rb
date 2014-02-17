@@ -482,10 +482,6 @@ describe Mongoid::Paranoia do
       it "clears out the persistence options" do
         Mongoid::Threaded.persistence_options(ParanoidPost).should be_nil
       end
-
-      it "clears out the identity map" do
-        Mongoid::IdentityMap.should be_empty
-      end
     end
 
     context "when the document is embedded" do
