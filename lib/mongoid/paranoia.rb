@@ -1,3 +1,7 @@
+require 'mongoid/core_ext/builders/nested_attributes/many'
+require 'mongoid/core_ext/relations/embedded/many'
+require 'mongoid/core_ext/validatable/uniqueness'
+
 # encoding: utf-8
 module Mongoid
 
@@ -11,10 +15,12 @@ module Mongoid
   #     include Mongoid::Paranoia
   #   end
   module Paranoia
+    include Mongoid::Persistable::Deletable
     extend ActiveSupport::Concern
 
     included do
       field :deleted_at, type: Time
+      class_attribute :paranoid
       self.paranoid = true
 
       default_scope ->{ where(deleted_at: nil) }
@@ -34,18 +40,6 @@ module Mongoid
       run_callbacks(:destroy) { delete! }
     end
 
-    # Delete the paranoid +Document+ from the database completely.
-    #
-    # @example Hard delete the document.
-    #   document.delete!
-    #
-    # @return [ true, false ] If the operation succeeded.
-    #
-    # @since 1.0.0
-    def delete!
-      Persistence::Operations.remove(self).persist
-    end
-
     # Delete the +Document+, will set the deleted_at timestamp and not actually
     # delete it.
     #
@@ -57,7 +51,7 @@ module Mongoid
     # @return [ true ] True.
     #
     # @since 1.0.0
-    def remove(options = {})
+    def remove_with_paranoia(options = {})
       cascade!
       time = self.deleted_at = Time.now
       paranoid_collection.find(atomic_selector).
@@ -65,7 +59,20 @@ module Mongoid
       @destroyed = true
       true
     end
-    alias :delete :remove
+    alias_method_chain :remove, :paranoia
+    alias :delete :remove_with_paranoia
+
+    # Delete the paranoid +Document+ from the database completely.
+    #
+    # @example Hard delete the document.
+    #   document.delete!
+    #
+    # @return [ true, false ] If the operation succeeded.
+    #
+    # @since 1.0.0
+    def delete!
+      remove_without_paranoia
+    end
 
     # Determines if this document is destroyed.
     #
@@ -79,6 +86,10 @@ module Mongoid
       (@destroyed ||= false) || !!deleted_at
     end
     alias :deleted? :destroyed?
+
+    def persisted?
+      !new_record? && !(@destroyed ||= false)
+    end
 
     # Restores a previously soft-deleted document. Handles this by removing the
     # deleted_at flag.

@@ -46,7 +46,7 @@ describe Mongoid::Paranoia do
       end
 
       it "returns the deleted documents" do
-        person.paranoid_phones.deleted.should eq([ phone ])
+        person.paranoid_phones.deleted.to_a.should eq([ phone ])
       end
 
       it "returns the correct count" do
@@ -480,7 +480,7 @@ describe Mongoid::Paranoia do
       end
 
       it "clears out the persistence options" do
-        Mongoid::Threaded.persistence_options(ParanoidPost).should be_nil
+        ParanoidPost.persistence_options.should be_nil
       end
     end
 
@@ -653,7 +653,7 @@ describe Mongoid::Paranoia do
     end
 
     before do
-      post.set(:deleted_at, time)
+      post.set(deleted_at: time)
     end
 
     it "persists the change" do
