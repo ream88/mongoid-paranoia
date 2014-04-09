@@ -5,4 +5,4 @@ gemspec
 gem 'rspec'
 gem 'rake'
 
-gem 'mongoid-versioning', github: 'simi/mongoid-versioning'
+gem 'mongoid-versioning', '1.0.0.beta1'
