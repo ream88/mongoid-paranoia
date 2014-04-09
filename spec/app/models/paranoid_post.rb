@@ -1,3 +1,5 @@
+require 'mongoid/versioning'
+
 class ParanoidPost
   include Mongoid::Document
   include Mongoid::Versioning
