@@ -1,0 +1,67 @@
+GIT
+  remote: git://github.com/mongoid/mongoid.git
+  revision: 9be37a9266d8b703e8f549af7bb6977e7a3a8352
+  specs:
+    mongoid (4.0.0.beta1)
+      activemodel (>= 4.0.0)
+      moped (~> 2.0.beta6)
+      origin (~> 2.1)
+      tzinfo (>= 0.3.37)
+
+PATH
+  remote: .
+  specs:
+    mongoid-paranoia (1.0.0.beta1)
+      activesupport
+      mongoid (= 4.0.0.beta1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (4.1.1)
+      activesupport (= 4.1.1)
+      builder (~> 3.1)
+    activesupport (4.1.1)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    bson (2.2.3)
+    builder (3.2.2)
+    connection_pool (2.0.0)
+    diff-lcs (1.2.5)
+    i18n (0.6.9)
+    json (1.8.1)
+    minitest (5.3.4)
+    mongoid-versioning (1.0.0.beta1)
+      activesupport
+      mongoid (= 4.0.0.beta1)
+    moped (2.0.0.rc1)
+      bson (~> 2.2)
+      connection_pool (~> 2.0)
+      optionable (~> 0.2.0)
+    optionable (0.2.0)
+    origin (2.1.1)
+    rake (10.3.2)
+    rspec (2.14.1)
+      rspec-core (~> 2.14.0)
+      rspec-expectations (~> 2.14.0)
+      rspec-mocks (~> 2.14.0)
+    rspec-core (2.14.8)
+    rspec-expectations (2.14.5)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.14.6)
+    thread_safe (0.3.3)
+    tzinfo (1.1.0)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mongoid!
+  mongoid-paranoia!
+  mongoid-versioning (= 1.0.0.beta1)
+  rake
+  rspec
