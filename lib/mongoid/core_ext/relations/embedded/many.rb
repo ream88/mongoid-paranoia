@@ -19,9 +19,9 @@ module Mongoid
           execute_callback :before_remove, document
           doc = target.delete_one(document)
           if doc && !_binding?
-            _unscoped.delete_one(doc) unless doc.respond_to?(:paranoid?)
+            _unscoped.delete_one(doc) unless doc.paranoid?
             if _assigning?
-              if doc.respond_to?(:paranoid?)
+              if doc.paranoid?
                 doc.destroy(suppress: true)
               else
                 base.add_atomic_pull(doc)

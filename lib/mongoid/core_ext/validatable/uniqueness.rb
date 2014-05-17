@@ -33,7 +33,7 @@ module Mongoid
           name = document.database_field_name(item)
           criteria = criteria.where(item => document.attributes[name])
         end
-        criteria = criteria.where(deleted_at: nil) if document.respond_to?(:paranoid?)
+        criteria = criteria.where(deleted_at: nil) if document.paranoid?
         criteria
       end
     end

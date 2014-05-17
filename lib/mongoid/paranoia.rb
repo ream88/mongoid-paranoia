@@ -1,3 +1,4 @@
+require 'mongoid/core_ext/document'
 require 'mongoid/core_ext/builders/nested_attributes/many'
 require 'mongoid/core_ext/relations/embedded/many'
 require 'mongoid/core_ext/validatable/uniqueness'
@@ -20,7 +21,6 @@ module Mongoid
 
     included do
       field :deleted_at, type: Time
-      class_attribute :paranoid
       self.paranoid = true
 
       default_scope ->{ where(deleted_at: nil) }

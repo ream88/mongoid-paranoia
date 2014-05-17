@@ -19,7 +19,7 @@ module Mongoid
           #
           # @since 3.0.10
           def destroy(parent, relation, doc)
-            if doc.respond_to?(:paranoid?)
+            if doc.paranoid?
               destroy_document(relation, doc)
             else
               super
