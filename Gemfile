@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
+gem 'mongoid-versioning', github: 'JDutil/mongoid-versioning', branch: 'bump-mongoid'
+
 gemspec
-
-gem 'rspec'
-gem 'rake'
-
-gem 'mongoid-versioning', '1.0.0.beta1'
