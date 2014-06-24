@@ -1,8 +1,9 @@
 # mongoid-paranoia [![Build Status](https://travis-ci.org/haihappen/mongoid-paranoia.png)](https://travis-ci.org/haihappen/mongoid-paranoia)
 
-**Important:** This gem is an extraction of [Mongoid::Paranoia](http://mongoid.org/en/mongoid/docs/extras.html#paranoia) from the official [mongoid](http://mongoid.org) gem. Since Mongoid::Paranoia will be removed in the upcoming `4.0.0` release of mongoid, this gem re-enables the functionality of paranoid documents.
+**Important:** This gem is an extraction of [Mongoid::Paranoia](http://mongoid.org/en/mongoid/v3/extras.html#paranoia) from the official [mongoid](http://mongoid.org) gem.
+Since Mongoid::Paranoia was removed in the `4.0.0` release of Mongoid, this gem re-enables the functionality of paranoid documents.
 
-**Please submit only bug and security fixes**. Neighter I will accept new features nor changes to existing APIs. Please consider forking the project if you want new features to appear! :)
+**Please submit only bug and security fixes**. Neither I will accept new features nor changes to existing APIs. Please consider forking the project if you want new features to appear! :)
 
 ---
 
@@ -49,7 +50,7 @@ Person.deleted # Returns documents that have been "flagged" as deleted.
 
 (The MIT license)
 
-Copyright (c) 2013 Mario Uher
+Copyright (c) 2014 Mario Uher
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
