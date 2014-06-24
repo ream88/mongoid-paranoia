@@ -5,7 +5,7 @@ describe Mongoid::Paranoia do
   describe ".scoped" do
 
     it "returns a scoped criteria" do
-      ParanoidPost.scoped.selector.should eq({ "deleted_at" => nil })
+      expect(ParanoidPost.scoped.selector).to eq({ "deleted_at" => nil })
     end
   end
 
@@ -26,7 +26,7 @@ describe Mongoid::Paranoia do
       end
 
       it "returns the deleted documents" do
-        deleted.should eq([ post ])
+        expect(deleted).to eq([ post ])
       end
     end
 
@@ -46,11 +46,11 @@ describe Mongoid::Paranoia do
       end
 
       it "returns the deleted documents" do
-        person.paranoid_phones.deleted.to_a.should eq([ phone ])
+        expect(person.paranoid_phones.deleted.to_a).to eq([ phone ])
       end
 
       it "returns the correct count" do
-        person.paranoid_phones.deleted.count.should eq(1)
+        expect(person.paranoid_phones.deleted.count).to eq(1)
       end
     end
   end
@@ -72,15 +72,15 @@ describe Mongoid::Paranoia do
       end
 
       it "hard deletes the document" do
-        raw.should be_nil
+        expect(raw).to be_nil
       end
 
       it "executes the before destroy callbacks" do
-        post.before_destroy_called.should be_truthy
+        expect(post.before_destroy_called).to be_truthy
       end
 
       it "executes the after destroy callbacks" do
-        post.after_destroy_called.should be_truthy
+        expect(post.after_destroy_called).to be_truthy
       end
     end
 
@@ -103,15 +103,15 @@ describe Mongoid::Paranoia do
       end
 
       it "hard deletes the document" do
-        raw["paranoid_phones"].should be_empty
+        expect(raw["paranoid_phones"]).to be_empty
       end
 
       it "executes the before destroy callbacks" do
-        phone.before_destroy_called.should be_truthy
+        expect(phone.before_destroy_called).to be_truthy
       end
 
       it "executes the after destroy callbacks" do
-        phone.after_destroy_called.should be_truthy
+        expect(phone.after_destroy_called).to be_truthy
       end
     end
 
@@ -154,7 +154,7 @@ describe Mongoid::Paranoia do
       end
 
       it "soft deletes the document" do
-        raw["deleted_at"].should be_within(1).of(Time.now)
+        expect(raw["deleted_at"]).to be_within(1).of(Time.now)
       end
 
       it "does not return the document in a find" do
@@ -164,11 +164,11 @@ describe Mongoid::Paranoia do
       end
 
       it "executes the before destroy callbacks" do
-        post.before_destroy_called.should be_truthy
+        expect(post.before_destroy_called).to be_truthy
       end
 
       it "executes the after destroy callbacks" do
-        post.after_destroy_called.should be_truthy
+        expect(post.after_destroy_called).to be_truthy
       end
     end
 
@@ -191,7 +191,7 @@ describe Mongoid::Paranoia do
       end
 
       it "soft deletes the document" do
-        raw["paranoid_phones"].first["deleted_at"].should be_within(1).of(Time.now)
+        expect(raw["paranoid_phones"].first["deleted_at"]).to be_within(1).of(Time.now)
       end
 
       it "does not return the document in a find" do
@@ -201,15 +201,15 @@ describe Mongoid::Paranoia do
       end
 
       it "does not include the document in the relation" do
-        person.paranoid_phones.scoped.should be_empty
+        expect(person.paranoid_phones.scoped).to be_empty
       end
 
       it "executes the before destroy callbacks" do
-        phone.before_destroy_called.should be_truthy
+        expect(phone.before_destroy_called).to be_truthy
       end
 
       it "executes the after destroy callbacks" do
-        phone.after_destroy_called.should be_truthy
+        expect(phone.after_destroy_called).to be_truthy
       end
     end
 
@@ -252,7 +252,7 @@ describe Mongoid::Paranoia do
       end
 
       it "does not destroy the document" do
-        post.should_not be_destroyed
+        expect(post).not_to be_destroyed
       end
     end
   end
@@ -272,7 +272,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          post.should be_destroyed
+          expect(post).to be_destroyed
         end
       end
 
@@ -283,7 +283,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          post.should be_destroyed
+          expect(post).to be_destroyed
         end
       end
     end
@@ -305,7 +305,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          phone.should be_destroyed
+          expect(phone).to be_destroyed
         end
       end
 
@@ -316,7 +316,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          phone.should be_destroyed
+          expect(phone).to be_destroyed
         end
       end
     end
@@ -337,7 +337,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          post.should be_deleted
+          expect(post).to be_deleted
         end
       end
 
@@ -348,7 +348,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          post.should be_deleted
+          expect(post).to be_deleted
         end
       end
     end
@@ -370,7 +370,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          phone.should be_deleted
+          expect(phone).to be_deleted
         end
       end
 
@@ -381,7 +381,7 @@ describe Mongoid::Paranoia do
         end
 
         it "returns true" do
-          phone.should be_deleted
+          expect(phone).to be_deleted
         end
       end
     end
@@ -404,7 +404,7 @@ describe Mongoid::Paranoia do
       end
 
       it "hard deletes the document" do
-        raw.should be_nil
+        expect(raw).to be_nil
       end
     end
 
@@ -427,7 +427,7 @@ describe Mongoid::Paranoia do
       end
 
       it "hard deletes the document" do
-        raw["paranoid_phones"].should be_empty
+        expect(raw["paranoid_phones"]).to be_empty
       end
     end
 
@@ -470,7 +470,7 @@ describe Mongoid::Paranoia do
       end
 
       it "soft deletes the document" do
-        raw["deleted_at"].should be_within(1).of(Time.now)
+        expect(raw["deleted_at"]).to be_within(1).of(Time.now)
       end
 
       it "does not return the document in a find" do
@@ -480,7 +480,7 @@ describe Mongoid::Paranoia do
       end
 
       it "clears out the persistence options" do
-        ParanoidPost.persistence_options.should be_nil
+        expect(ParanoidPost.persistence_options).to be_nil
       end
     end
 
@@ -503,7 +503,7 @@ describe Mongoid::Paranoia do
       end
 
       it "soft deletes the document" do
-        raw["paranoid_phones"].first["deleted_at"].should be_within(1).of(Time.now)
+        expect(raw["paranoid_phones"].first["deleted_at"]).to be_within(1).of(Time.now)
       end
 
       it "does not return the document in a find" do
@@ -513,7 +513,7 @@ describe Mongoid::Paranoia do
       end
 
       it "does not include the document in the relation" do
-        person.paranoid_phones.scoped.should be_empty
+        expect(person.paranoid_phones.scoped).to be_empty
       end
     end
 
@@ -556,7 +556,7 @@ describe Mongoid::Paranoia do
       end
 
       it "does not destroy the document" do
-        post.should_not be_destroyed
+        expect(post).not_to be_destroyed
       end
     end
   end
@@ -576,7 +576,7 @@ describe Mongoid::Paranoia do
     end
 
     it "sets the deleted flag" do
-      post.should be_destroyed
+      expect(post).to be_destroyed
     end
   end
 
@@ -594,15 +594,15 @@ describe Mongoid::Paranoia do
       end
 
       it "removes the deleted at time" do
-        post.deleted_at.should be_nil
+        expect(post.deleted_at).to be_nil
       end
 
       it "persists the change" do
-        post.reload.deleted_at.should be_nil
+        expect(post.reload.deleted_at).to be_nil
       end
 
       it "marks document again as persisted" do
-        post.persisted?.should be_truthy
+        expect(post.persisted?).to be_truthy
       end
     end
 
@@ -622,11 +622,11 @@ describe Mongoid::Paranoia do
       end
 
       it "removes the deleted at time" do
-        phone.deleted_at.should be_nil
+        expect(phone.deleted_at).to be_nil
       end
 
       it "persists the change" do
-        person.reload.paranoid_phones.first.deleted_at.should be_nil
+        expect(person.reload.paranoid_phones.first.deleted_at).to be_nil
       end
     end
   end
@@ -638,7 +638,7 @@ describe Mongoid::Paranoia do
     end
 
     it "returns a scoped criteria" do
-      scoped.selector.should eq({ "deleted_at" => nil })
+      expect(scoped.selector).to eq({ "deleted_at" => nil })
     end
   end
 
@@ -657,7 +657,7 @@ describe Mongoid::Paranoia do
     end
 
     it "persists the change" do
-      post.reload.deleted_at.should be_within(1).of(time)
+      expect(post.reload.deleted_at).to be_within(1).of(time)
     end
   end
 
@@ -668,7 +668,7 @@ describe Mongoid::Paranoia do
     end
 
     it "returns an unscoped criteria" do
-      unscoped.selector.should eq({})
+      expect(unscoped.selector).to eq({})
     end
   end
 
@@ -681,7 +681,7 @@ describe Mongoid::Paranoia do
     context "when the document is new" do
 
       it "still returns nil" do
-        post.to_param.should be_nil
+        expect(post.to_param).to be_nil
       end
     end
 
@@ -692,7 +692,7 @@ describe Mongoid::Paranoia do
       end
 
       it "returns the id as a string" do
-        post.to_param.should eq(post.id.to_s)
+        expect(post.to_param).to eq(post.id.to_s)
       end
     end
 
@@ -704,7 +704,7 @@ describe Mongoid::Paranoia do
       end
 
       it "returns the id as a string" do
-        post.to_param.should eq(post.id.to_s)
+        expect(post.to_param).to eq(post.id.to_s)
       end
     end
   end

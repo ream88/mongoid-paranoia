@@ -27,7 +27,7 @@ describe Mongoid::Validatable::UniquenessValidator do
           end
 
           it "returns true" do
-            new_post.should be_valid
+            expect(new_post).to be_valid
           end
         end
 
@@ -42,7 +42,7 @@ describe Mongoid::Validatable::UniquenessValidator do
           end
 
           it "returns true" do
-            new_post.should be_valid
+            expect(new_post).to be_valid
           end
         end
 
@@ -53,7 +53,7 @@ describe Mongoid::Validatable::UniquenessValidator do
           end
 
           it "returns false" do
-            new_post.should_not be_valid
+            expect(new_post).not_to be_valid
           end
         end
       end
