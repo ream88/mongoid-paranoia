@@ -59,6 +59,7 @@ RSpec.configure do |config|
 
   # Drop all collections before each spec.
   config.before(:each) do
+    I18n.enforce_available_locales = true
     Mongoid.purge!
   end
 
