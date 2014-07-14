@@ -3,7 +3,13 @@
 **Important:** This gem is an extraction of [Mongoid::Paranoia](http://mongoid.org/en/mongoid/v3/extras.html#paranoia) from the official [mongoid](http://mongoid.org) gem.
 Since Mongoid::Paranoia was removed in the `4.0.0` release of Mongoid, this gem re-enables the functionality of paranoid documents.
 
-**Please submit only bug and security fixes**. Neither I will accept new features nor changes to existing APIs. Please consider forking the project if you want new features to appear! :)
+**Please submit only bug and security fixes**. Neither I will accept new features nor changes to existing APIs.
+
+**Attention:** There are two similarly named gems out there: `mongoid-paranoia` and `mongoid_paranoia`
+
+* `mongoid-paranoia`'s (this one) goal is to stay API compatible, which comes at the cost of (breaking) API changes to be rejected. If you're updating a Mongoid 3.x app to Mongoid 4.0 and you depend on `Mongoid::Paranoia` this gem is recommended for continuity.
+
+* However if your code is working and you want new features, for example a `*_restore` callback, you should head over to @simi's `mongoid_paranoia` gem at https://github.com/simi/mongoid_paranoia. He is doing a great job there and is willing to accept your PRs ;)
 
 ---
 
