@@ -4,6 +4,7 @@ module Mongoid
     module Builders
       module NestedAttributes
         class Many < NestedBuilder
+          alias_method :original_destroy, :destroy
 
           # Destroy the child document, needs to do some checking for embedded
           # relations and delay the destroy in case parent validation fails.
@@ -22,7 +23,7 @@ module Mongoid
             if doc.paranoid?
               destroy_document(relation, doc)
             else
-              super
+              original_destroy(parent, relation, doc)
             end
           end
         end
