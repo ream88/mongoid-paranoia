@@ -50,12 +50,16 @@ module Mongoid
     #
     # @return [ true ] True.
     #
+    # @todo Remove Mongoid 4 support.
     # @since 1.0.0
     def remove_with_paranoia(options = {})
       cascade!
       time = self.deleted_at = Time.now
-      paranoid_collection.find(atomic_selector).
-        update({ "$set" => { paranoid_field => time }})
+      query = paranoid_collection.find(atomic_selector)
+      query.respond_to?(:update_one) ?
+        query.update_one({ "$set" => { paranoid_field => time }}) :
+        query.update({ "$set" => { paranoid_field => time }})
+
       @destroyed = true
       true
     end
@@ -99,10 +103,14 @@ module Mongoid
     #
     # @return [ Time ] The time the document had been deleted.
     #
+    # @todo Remove Mongoid 4 support.
     # @since 1.0.0
     def restore
-      paranoid_collection.find(atomic_selector).
-        update({ "$unset" => { paranoid_field => true }})
+      query = paranoid_collection.find(atomic_selector)
+      query.respond_to?(:update_one) ?
+        query.update_one({ "$unset" => { paranoid_field => true }}) :
+        query.update({ "$unset" => { paranoid_field => true }})
+
       attributes.delete("deleted_at")
       @destroyed = false
       true
