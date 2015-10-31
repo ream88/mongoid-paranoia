@@ -69,7 +69,11 @@ RSpec.configure do |config|
   # drop the database after the suite.
   config.after(:suite) do
     if ENV["CI"]
-      Mongoid::Threaded.sessions[:default].drop
+      if defined?(Mongo)
+        Mongo::Client.new(["#{HOST}:#{PORT}"], database: database_id).database.drop
+      else
+        Mongoid::Threaded.sessions[:default].drop
+      end
     end
   end
 
