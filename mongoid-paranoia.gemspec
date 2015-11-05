@@ -4,8 +4,8 @@ require 'mongoid/paranoia/version'
 Gem::Specification.new do |gem|
   gem.name          = 'mongoid-paranoia'
   gem.version       = Mongoid::Paranoia::VERSION
-  gem.authors       = 'Mario Uher'
-  gem.email         = 'uher.mario@gmail.com'
+  gem.authors       = ['Durran Jordan', 'Mario Uher']
+  gem.email         = ['durran@gmail.com', 'uher.mario@gmail.com']
   gem.homepage      = 'https://github.com/haihappen/mongoid-paranoia'
   gem.summary       = 'Extraction of mongoid-paranoia into its own gem.'
   gem.description   = "There may be times when you don't want documents to actually get deleted from the database, but \"flagged\" as deleted."

@@ -56,7 +56,7 @@ Person.deleted # Returns documents that have been "flagged" as deleted.
 
 (The MIT license)
 
-Copyright (c) 2013-2015 Mario Uher
+Copyright (c) 2009-2013 Durran Jordan, 2013-2015 Mario Uher
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
