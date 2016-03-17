@@ -1,7 +1,6 @@
 # encoding: utf-8
 module Mongoid
   module Validatable
-
     # Validates whether or not a field is unique against the documents in the
     # database.
     #
@@ -14,7 +13,6 @@ module Mongoid
     #     validates_uniqueness_of :title
     #   end
     class UniquenessValidator < ActiveModel::EachValidator
-
       # Scope the criteria to the scope options provided.
       #
       # @api private
@@ -28,7 +26,7 @@ module Mongoid
       # @return [ Criteria ] The scoped criteria.
       #
       # @since 2.3.0
-      def scope(criteria, document, attribute)
+      def scope(criteria, document, _attribute)
         Array.wrap(options[:scope]).each do |item|
           name = document.database_field_name(item)
           criteria = criteria.where(item => document.attributes[name])

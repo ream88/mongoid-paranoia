@@ -5,7 +5,6 @@ require 'mongoid/core_ext/validatable/uniqueness'
 
 # encoding: utf-8
 module Mongoid
-
   # Include this module to get soft deletion of root level documents.
   # This will add a deleted_at field to the +Document+, managed automatically.
   # Potentially incompatible with unique indices. (if collisions with deleted items)
@@ -23,8 +22,8 @@ module Mongoid
       field :deleted_at, type: Time
       self.paranoid = true
 
-      default_scope ->{ where(deleted_at: nil) }
-      scope :deleted, ->{ ne(deleted_at: nil) }
+      default_scope -> { where(deleted_at: nil) }
+      scope :deleted, -> { ne(deleted_at: nil) }
     end
 
     # Delete the paranoid +Document+ from the database completely. This will
@@ -52,19 +51,19 @@ module Mongoid
     #
     # @todo Remove Mongoid 4 support.
     # @since 1.0.0
-    def remove_with_paranoia(options = {})
+    def remove_with_paranoia(_options = {})
       cascade!
       time = self.deleted_at = Time.now
       query = paranoid_collection.find(atomic_selector)
       query.respond_to?(:update_one) ?
-        query.update_one({ "$set" => { paranoid_field => time }}) :
-        query.update({ "$set" => { paranoid_field => time }})
+        query.update_one('$set' => { paranoid_field => time }) :
+        query.update('$set' => { paranoid_field => time })
 
       @destroyed = true
       true
     end
     alias_method_chain :remove, :paranoia
-    alias :delete :remove_with_paranoia
+    alias_method :delete, :remove_with_paranoia
 
     # Delete the paranoid +Document+ from the database completely.
     #
@@ -89,7 +88,7 @@ module Mongoid
     def destroyed?
       (@destroyed ||= false) || !!deleted_at
     end
-    alias :deleted? :destroyed?
+    alias_method :deleted?, :destroyed?
 
     def persisted?
       !new_record? && !(@destroyed ||= false)
@@ -108,10 +107,10 @@ module Mongoid
     def restore
       query = paranoid_collection.find(atomic_selector)
       query.respond_to?(:update_one) ?
-        query.update_one({ "$unset" => { paranoid_field => true }}) :
-        query.update({ "$unset" => { paranoid_field => true }})
+        query.update_one('$unset' => { paranoid_field => true }) :
+        query.update('$unset' => { paranoid_field => true })
 
-      attributes.delete("deleted_at")
+      attributes.delete('deleted_at')
       @destroyed = false
       true
     end
@@ -132,7 +131,7 @@ module Mongoid
     #
     # @since 2.3.1
     def paranoid_collection
-      embedded? ? _root.collection : self.collection
+      embedded? ? _root.collection : collection
     end
 
     # Get the field to be used for paranoid operations.
@@ -144,7 +143,7 @@ module Mongoid
     #
     # @since 2.3.1
     def paranoid_field
-      embedded? ? "#{atomic_position}.deleted_at" : "deleted_at"
+      embedded? ? "#{atomic_position}.deleted_at" : 'deleted_at'
     end
   end
 end

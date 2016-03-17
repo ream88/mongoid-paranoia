@@ -3,7 +3,6 @@ module Mongoid
   module Relations
     module Embedded
       class Many < Relations::Many
-
         # Delete the supplied document from the target. This method is proxied
         # in order to reindex the array after the operation occurs.
         #

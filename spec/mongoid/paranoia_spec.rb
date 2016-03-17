@@ -1,20 +1,16 @@
-require_relative "../spec_helper"
+require_relative '../spec_helper'
 
 describe Mongoid::Paranoia do
-
-  describe ".scoped" do
-
-    it "returns a scoped criteria" do
-      expect(ParanoidPost.scoped.selector).to eq({ "deleted_at" => nil })
+  describe '.scoped' do
+    it 'returns a scoped criteria' do
+      expect(ParanoidPost.scoped.selector).to eq('deleted_at' => nil)
     end
   end
 
-  describe ".deleted" do
-
-    context "when called on a root document" do
-
+  describe '.deleted' do
+    context 'when called on a root document' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
       before do
@@ -25,13 +21,12 @@ describe Mongoid::Paranoia do
         ParanoidPost.deleted
       end
 
-      it "returns the deleted documents" do
-        expect(deleted).to eq([ post ])
+      it 'returns the deleted documents' do
+        expect(deleted).to eq([post])
       end
     end
 
-    context "when called on an embedded document" do
-
+    context 'when called on an embedded document' do
       let(:person) do
         Person.create
       end
@@ -45,22 +40,20 @@ describe Mongoid::Paranoia do
         person.reload
       end
 
-      it "returns the deleted documents" do
-        expect(person.paranoid_phones.deleted.to_a).to eq([ phone ])
+      it 'returns the deleted documents' do
+        expect(person.paranoid_phones.deleted.to_a).to eq([phone])
       end
 
-      it "returns the correct count" do
+      it 'returns the correct count' do
         expect(person.paranoid_phones.deleted.count).to eq(1)
       end
     end
   end
 
-  describe "#destroy!" do
-
-    context "when the document is a root" do
-
+  describe '#destroy!' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
       before do
@@ -71,27 +64,26 @@ describe Mongoid::Paranoia do
         ParanoidPost.collection.find(_id: post.id).first
       end
 
-      it "hard deletes the document" do
+      it 'hard deletes the document' do
         expect(raw).to be_nil
       end
 
-      it "executes the before destroy callbacks" do
+      it 'executes the before destroy callbacks' do
         expect(post.before_destroy_called).to be_truthy
       end
 
-      it "executes the after destroy callbacks" do
+      it 'executes the after destroy callbacks' do
         expect(post.after_destroy_called).to be_truthy
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
       before do
@@ -102,47 +94,44 @@ describe Mongoid::Paranoia do
         Person.collection.find(_id: person.id).first
       end
 
-      it "hard deletes the document" do
-        expect(raw["paranoid_phones"]).to be_empty
+      it 'hard deletes the document' do
+        expect(raw['paranoid_phones']).to be_empty
       end
 
-      it "executes the before destroy callbacks" do
+      it 'executes the before destroy callbacks' do
         expect(phone.before_destroy_called).to be_truthy
       end
 
-      it "executes the after destroy callbacks" do
+      it 'executes the after destroy callbacks' do
         expect(phone.after_destroy_called).to be_truthy
       end
     end
 
-    context "when the document has a dependent relation" do
-
+    context 'when the document has a dependent relation' do
       let(:post) do
-        ParanoidPost.create(title: "test")
+        ParanoidPost.create(title: 'test')
       end
 
       let!(:author) do
-        post.authors.create(name: "poe")
+        post.authors.create(name: 'poe')
       end
 
       before do
         post.destroy!
       end
 
-      it "cascades the dependent option" do
-        expect {
+      it 'cascades the dependent option' do
+        expect do
           author.reload
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
     end
   end
 
-  describe "#destroy" do
-
-    context "when the document is a root" do
-
+  describe '#destroy' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
       before do
@@ -153,33 +142,32 @@ describe Mongoid::Paranoia do
         ParanoidPost.collection.find(_id: post.id).first
       end
 
-      it "soft deletes the document" do
-        expect(raw["deleted_at"]).to be_within(1).of(Time.now)
+      it 'soft deletes the document' do
+        expect(raw['deleted_at']).to be_within(1).of(Time.now)
       end
 
-      it "does not return the document in a find" do
-        expect {
+      it 'does not return the document in a find' do
+        expect do
           ParanoidPost.find(post.id)
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
 
-      it "executes the before destroy callbacks" do
+      it 'executes the before destroy callbacks' do
         expect(post.before_destroy_called).to be_truthy
       end
 
-      it "executes the after destroy callbacks" do
+      it 'executes the after destroy callbacks' do
         expect(post.after_destroy_called).to be_truthy
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
       before do
@@ -190,54 +178,52 @@ describe Mongoid::Paranoia do
         Person.collection.find(_id: person.id).first
       end
 
-      it "soft deletes the document" do
-        expect(raw["paranoid_phones"].first["deleted_at"]).to be_within(1).of(Time.now)
+      it 'soft deletes the document' do
+        expect(raw['paranoid_phones'].first['deleted_at']).to be_within(1).of(Time.now)
       end
 
-      it "does not return the document in a find" do
-        expect {
+      it 'does not return the document in a find' do
+        expect do
           person.paranoid_phones.find(phone.id)
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
 
-      it "does not include the document in the relation" do
+      it 'does not include the document in the relation' do
         expect(person.paranoid_phones.scoped).to be_empty
       end
 
-      it "executes the before destroy callbacks" do
+      it 'executes the before destroy callbacks' do
         expect(phone.before_destroy_called).to be_truthy
       end
 
-      it "executes the after destroy callbacks" do
+      it 'executes the after destroy callbacks' do
         expect(phone.after_destroy_called).to be_truthy
       end
     end
 
-    context "when the document has a dependent: :delete relation" do
-
+    context 'when the document has a dependent: :delete relation' do
       let(:post) do
-        ParanoidPost.create(title: "test")
+        ParanoidPost.create(title: 'test')
       end
 
       let!(:author) do
-        post.authors.create(name: "poe")
+        post.authors.create(name: 'poe')
       end
 
       before do
         post.destroy
       end
 
-      it "cascades the dependent option" do
-        expect {
+      it 'cascades the dependent option' do
+        expect do
           author.reload
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
     end
 
-    context "when the document has a dependent: :restrict relation" do
-
+    context 'when the document has a dependent: :restrict relation' do
       let(:post) do
-        ParanoidPost.create(title: "test")
+        ParanoidPost.create(title: 'test')
       end
 
       let!(:title) do
@@ -251,148 +237,132 @@ describe Mongoid::Paranoia do
         end
       end
 
-      it "does not destroy the document" do
+      it 'does not destroy the document' do
         expect(post).not_to be_destroyed
       end
     end
   end
 
-  describe "#destroyed?" do
-
-    context "when the document is a root" do
-
+  describe '#destroyed?' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
-      context "when the document is hard deleted" do
-
+      context 'when the document is hard deleted' do
         before do
           post.destroy!
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(post).to be_destroyed
         end
       end
 
-      context "when the document is soft deleted" do
-
+      context 'when the document is soft deleted' do
         before do
           post.destroy
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(post).to be_destroyed
         end
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
-      context "when the document is hard deleted" do
-
+      context 'when the document is hard deleted' do
         before do
           phone.destroy!
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(phone).to be_destroyed
         end
       end
 
-      context "when the document is soft deleted" do
-
+      context 'when the document is soft deleted' do
         before do
           phone.destroy
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(phone).to be_destroyed
         end
       end
     end
   end
 
-  describe "#deleted?" do
-
-    context "when the document is a root" do
-
+  describe '#deleted?' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
-      context "when the document is hard deleted" do
-
+      context 'when the document is hard deleted' do
         before do
           post.destroy!
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(post).to be_deleted
         end
       end
 
-      context "when the document is soft deleted" do
-
+      context 'when the document is soft deleted' do
         before do
           post.destroy
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(post).to be_deleted
         end
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
-      context "when the document is hard deleted" do
-
+      context 'when the document is hard deleted' do
         before do
           phone.destroy!
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(phone).to be_deleted
         end
       end
 
-      context "when the document is soft deleted" do
-
+      context 'when the document is soft deleted' do
         before do
           phone.destroy
         end
 
-        it "returns true" do
+        it 'returns true' do
           expect(phone).to be_deleted
         end
       end
     end
   end
 
-  describe "#delete!" do
-
-    context "when the document is a root" do
-
+  describe '#delete!' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
       before do
@@ -403,19 +373,18 @@ describe Mongoid::Paranoia do
         ParanoidPost.collection.find(_id: post.id).first
       end
 
-      it "hard deletes the document" do
+      it 'hard deletes the document' do
         expect(raw).to be_nil
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
       before do
@@ -426,39 +395,36 @@ describe Mongoid::Paranoia do
         Person.collection.find(_id: person.id).first
       end
 
-      it "hard deletes the document" do
-        expect(raw["paranoid_phones"]).to be_empty
+      it 'hard deletes the document' do
+        expect(raw['paranoid_phones']).to be_empty
       end
     end
 
-    context "when the document has a dependent relation" do
-
+    context 'when the document has a dependent relation' do
       let(:post) do
-        ParanoidPost.create(title: "test")
+        ParanoidPost.create(title: 'test')
       end
 
       let!(:author) do
-        post.authors.create(name: "poe")
+        post.authors.create(name: 'poe')
       end
 
       before do
         post.delete!
       end
 
-      it "cascades the dependent option" do
-        expect {
+      it 'cascades the dependent option' do
+        expect do
           author.reload
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
     end
   end
 
-  describe "#delete" do
-
-    context "when the document is a root" do
-
+  describe '#delete' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
       before do
@@ -469,29 +435,28 @@ describe Mongoid::Paranoia do
         ParanoidPost.collection.find(_id: post.id).first
       end
 
-      it "soft deletes the document" do
-        expect(raw["deleted_at"]).to be_within(1).of(Time.now)
+      it 'soft deletes the document' do
+        expect(raw['deleted_at']).to be_within(1).of(Time.now)
       end
 
-      it "does not return the document in a find" do
-        expect {
+      it 'does not return the document in a find' do
+        expect do
           ParanoidPost.find(post.id)
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
 
-      it "clears out the persistence options" do
+      it 'clears out the persistence options' do
         expect(ParanoidPost.persistence_options).to be_nil
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
       before do
@@ -502,46 +467,44 @@ describe Mongoid::Paranoia do
         Person.collection.find(_id: person.id).first
       end
 
-      it "soft deletes the document" do
-        expect(raw["paranoid_phones"].first["deleted_at"]).to be_within(1).of(Time.now)
+      it 'soft deletes the document' do
+        expect(raw['paranoid_phones'].first['deleted_at']).to be_within(1).of(Time.now)
       end
 
-      it "does not return the document in a find" do
-        expect {
+      it 'does not return the document in a find' do
+        expect do
           person.paranoid_phones.find(phone.id)
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
 
-      it "does not include the document in the relation" do
+      it 'does not include the document in the relation' do
         expect(person.paranoid_phones.scoped).to be_empty
       end
     end
 
-    context "when the document has a dependent relation" do
-
+    context 'when the document has a dependent relation' do
       let(:post) do
-        ParanoidPost.create(title: "test")
+        ParanoidPost.create(title: 'test')
       end
 
       let!(:author) do
-        post.authors.create(name: "poe")
+        post.authors.create(name: 'poe')
       end
 
       before do
         post.delete
       end
 
-      it "cascades the dependent option" do
-        expect {
+      it 'cascades the dependent option' do
+        expect do
           author.reload
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
+        end.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
     end
 
-    context "when the document has a dependent: :restrict relation" do
-
+    context 'when the document has a dependent: :restrict relation' do
       let(:post) do
-        ParanoidPost.create(title: "test")
+        ParanoidPost.create(title: 'test')
       end
 
       let!(:title) do
@@ -555,14 +518,13 @@ describe Mongoid::Paranoia do
         end
       end
 
-      it "does not destroy the document" do
+      it 'does not destroy the document' do
         expect(post).not_to be_destroyed
       end
     end
   end
 
-  describe "#remove" do
-
+  describe '#remove' do
     let(:post) do
       ParanoidPost.new
     end
@@ -575,17 +537,15 @@ describe Mongoid::Paranoia do
       post.remove
     end
 
-    it "sets the deleted flag" do
+    it 'sets the deleted flag' do
       expect(post).to be_destroyed
     end
   end
 
-  describe "#restore" do
-
-    context "when the document is a root" do
-
+  describe '#restore' do
+    context 'when the document is a root' do
       let(:post) do
-        ParanoidPost.create(title: "testing")
+        ParanoidPost.create(title: 'testing')
       end
 
       before do
@@ -593,27 +553,26 @@ describe Mongoid::Paranoia do
         post.restore
       end
 
-      it "removes the deleted at time" do
+      it 'removes the deleted at time' do
         expect(post.deleted_at).to be_nil
       end
 
-      it "persists the change" do
+      it 'persists the change' do
         expect(post.reload.deleted_at).to be_nil
       end
 
-      it "marks document again as persisted" do
+      it 'marks document again as persisted' do
         expect(post.persisted?).to be_truthy
       end
     end
 
-    context "when the document is embedded" do
-
+    context 'when the document is embedded' do
       let(:person) do
         Person.create
       end
 
       let(:phone) do
-        person.paranoid_phones.create(number: "911")
+        person.paranoid_phones.create(number: '911')
       end
 
       before do
@@ -621,29 +580,27 @@ describe Mongoid::Paranoia do
         phone.restore
       end
 
-      it "removes the deleted at time" do
+      it 'removes the deleted at time' do
         expect(phone.deleted_at).to be_nil
       end
 
-      it "persists the change" do
+      it 'persists the change' do
         expect(person.reload.paranoid_phones.first.deleted_at).to be_nil
       end
     end
   end
 
-  describe ".scoped" do
-
+  describe '.scoped' do
     let(:scoped) do
       ParanoidPost.scoped
     end
 
-    it "returns a scoped criteria" do
-      expect(scoped.selector).to eq({ "deleted_at" => nil })
+    it 'returns a scoped criteria' do
+      expect(scoped.selector).to eq('deleted_at' => nil)
     end
   end
 
-  describe "#set" do
-
+  describe '#set' do
     let!(:post) do
       ParanoidPost.create
     end
@@ -656,54 +613,49 @@ describe Mongoid::Paranoia do
       post.set(deleted_at: time)
     end
 
-    it "persists the change" do
+    it 'persists the change' do
       expect(post.reload.deleted_at).to be_within(1).of(time)
     end
   end
 
-  describe ".unscoped" do
-
+  describe '.unscoped' do
     let(:unscoped) do
       ParanoidPost.unscoped
     end
 
-    it "returns an unscoped criteria" do
+    it 'returns an unscoped criteria' do
       expect(unscoped.selector).to eq({})
     end
   end
 
-  describe "#to_param" do
-
+  describe '#to_param' do
     let(:post) do
-      ParanoidPost.new(title: "testing")
+      ParanoidPost.new(title: 'testing')
     end
 
-    context "when the document is new" do
-
-      it "still returns nil" do
+    context 'when the document is new' do
+      it 'still returns nil' do
         expect(post.to_param).to be_nil
       end
     end
 
-    context "when the document is not deleted" do
-
+    context 'when the document is not deleted' do
       before do
         post.save
       end
 
-      it "returns the id as a string" do
+      it 'returns the id as a string' do
         expect(post.to_param).to eq(post.id.to_s)
       end
     end
 
-    context "when the document is deleted" do
-
+    context 'when the document is deleted' do
       before do
         post.save
         post.delete
       end
 
-      it "returns the id as a string" do
+      it 'returns the id as a string' do
         expect(post.to_param).to eq(post.id.to_s)
       end
     end
