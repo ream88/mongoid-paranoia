@@ -20,6 +20,12 @@ class ParanoidPhone
   end
 
   def halt_me
-    person.age == 42 ? false : true
+    should_halt = (person.age == 42)
+
+    if ActiveSupport.version >= Gem::Version.new("5.0.0")
+      throw :abort if should_halt
+    else
+      should_halt ? false : true
+    end
   end
 end
