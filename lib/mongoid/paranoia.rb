@@ -62,7 +62,9 @@ module Mongoid
       @destroyed = true
       true
     end
-    alias_method_chain :remove, :paranoia
+
+    alias_method :remove_without_paranoia, :remove
+    alias_method :remove, :remove_with_paranoia
     alias_method :delete, :remove_with_paranoia
 
     # Delete the paranoid +Document+ from the database completely.
