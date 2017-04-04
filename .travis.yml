@@ -6,7 +6,9 @@ rvm:
   - 2.0.0
   - 2.1.0
   - 2.2.0
+  - 2.2.2
   - 2.3.0
+  - 2.4.0
 
 # mongoid 6.x >= activesupport 5.x >= ruby 2.2
 matrix:
